@@ -8,26 +8,6 @@
 # Get the heading in a format like "North", "West", "East", "South",
 
 # from http://aprs.gids.nl/nmea/
-   # $GPBOD - Bearing, origin to destination
-   # $GPBWC - Bearing and distance to waypoint, great circle
-   # $GPGGA - Global Positioning System Fix Data
-   # $GPGLL - Geographic position, latitude / longitude
-   # $GPGSA - GPS DOP and active satellites 
-   # $GPGSV - GPS Satellites in view
-   # $GPHDT - Heading, True
-   # $GPR00 - List of waypoints in currently active route
-   # $GPRMA - Recommended minimum specific Loran-C data
-   # $GPRMB - Recommended minimum navigation info
-   # $GPRMC - Recommended minimum specific GPS/Transit data
-   # $GPRTE - Routes
-   # $GPTRF - Transit Fix Data
-   # $GPSTN - Multiple Data ID
-   # $GPVBW - Dual Ground / Water Speed
-   # $GPVTG - Track made good and ground speed
-   # $GPWPL - Waypoint location
-   # $GPXTE - Cross-track error, Measured
-   # $GPZDA - Date & Time
-
 
 #ublox uses GNPGGA instead of GPNGGA
 #run this program along gps_process.sh
@@ -38,7 +18,7 @@
 import shutil, sys  
 #from pynmea import nmea
 import matplotlib.pyplot as plt
-import pynmea2
+#import pynmea2
 from time import sleep
 import numpy as np
 
@@ -59,7 +39,7 @@ lat_max = 49.26257 #TRY
 
 
 #format of gps data in gps_data.txt 
-#$GNGGA,003343.00,4915.79761,N,12315.34404,W,1,06,2.42,90.2,M,-17.5,M,,*44
+#is same as $cgps 
 def heading(pos_x0,pos_x1,pos_y0,pos_y1):
 	#print("delta_x")
 	delta_x= (float(pos_x0) -float(pos_x1))
@@ -118,8 +98,8 @@ def position():
 
 
 	# #calc position
-	pos_y = data[7]
-	pos_x = data[6]
+	pos_y = data[6]
+	pos_x = data[5]
 
 	#print (pos_x)
 	#print (pos_y)
@@ -157,13 +137,13 @@ def file_operations(data):
 
 
 def main():
-	for x in range(1,5):
+	for x in range(1,2):
 		print("main call")
 		Position_Lat_long = position()
-		print(Position_Lat_long)
+	#	print(Position_Lat_long)
 		x0= Position_Lat_long[0]
 		y0 = Position_Lat_long[1]
-		plotter(y0,x0,'map.png')
+		#plotter(y0,x0,'map.png')
 		sleep(3.0)
 		Position_Lat_long = position()
 		x1= Position_Lat_long[0]
@@ -174,9 +154,10 @@ def main():
 	#	print (Cardinal_direction)
 		#print(x0,y1)
 		needed_data = [x0, y0, Cardinal_direction]
-		#file_operations(needed_data) #take the running average
+		file_operations(needed_data) #take the running average
 		print(needed_data) 
 		sleep(3.0)  #if this is too small, faults will occur
 
 if __name__ == "__main__":
 	main()
+
