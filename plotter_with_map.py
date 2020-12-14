@@ -1,4 +1,3 @@
-
 # Author: Timothy Wriglesworth
 # University of British Columbia, 
 # Radio Science Lab
@@ -7,26 +6,7 @@
 # Lat and Longitude
 # Get the heading in a format like "North", "West", "East", "South",
 
-# from http://aprs.gids.nl/nmea/
-   # $GPBOD - Bearing, origin to destination
-   # $GPBWC - Bearing and distance to waypoint, great circle
-   # $GPGGA - Global Positioning System Fix Data
-   # $GPGLL - Geographic position, latitude / longitude
-   # $GPGSA - GPS DOP and active satellites 
-   # $GPGSV - GPS Satellites in view
-   # $GPHDT - Heading, True
-   # $GPR00 - List of waypoints in currently active route
-   # $GPRMA - Recommended minimum specific Loran-C data
-   # $GPRMB - Recommended minimum navigation info
-   # $GPRMC - Recommended minimum specific GPS/Transit data
-   # $GPRTE - Routes
-   # $GPTRF - Transit Fix Data
-   # $GPSTN - Multiple Data ID
-   # $GPVBW - Dual Ground / Water Speed
-   # $GPVTG - Track made good and ground speed
-   # $GPWPL - Waypoint location
-   # $GPXTE - Cross-track error, Measured
-   # $GPZDA - Date & Time
+
 
 
 #ublox uses GNPGGA instead of GPNGGA
@@ -38,7 +18,7 @@
 import shutil, sys  
 #from pynmea import nmea
 import matplotlib.pyplot as plt
-#import pynmea2
+
 from time import sleep
 import numpy as np
 
@@ -146,7 +126,7 @@ def plotter(pos_x, pos_y,map_png,timeout):
 	y_ = np.array(pos_y)
 	y =y_.astype(np.float) 
 
-	print(y)
+	#print(y)
 
 	#plt.scatter(x=float(pos_x), y=float(pos_y),alpha = 0.5, s = 25, c='r')
 	plt.scatter(x,y, s = 5, c='b')
@@ -200,14 +180,14 @@ def main():
 	plotter_y = Position_Lat_long[1]
 	# print("plotter_x")
 	# print(plotter_x)
-	timeout = 5
+	timeout = 3
 
 
-	x_sim = [-123.24480,-123.24506, -123.24523]
-	y_sim = [49.26561,49.26596,49.26618]
+	#x_sim = [-123.24480,-123.24506, -123.24523]
+	#y_sim = [49.26561,49.26596,49.26618]
 
-	test_x = x_sim[0]
-	test_y = y_sim[0]
+	#test_x = x_sim[0]
+	#test_y = y_sim[0]
 
 	#plotter(test_y,test_x,'map.png',timeout)  #********************
 	sleep(3.0) 
@@ -216,8 +196,8 @@ def main():
 		print("main call")
 		Position_Lat_long = position()
 
-	#	plotter_x = np.append(plotter_x,Position_Lat_long[0]) #****************88
-	#	plotter_y = np.append(plotter_y,Position_Lat_long[1]) #***********88
+		plotter_x = np.append(plotter_x,Position_Lat_long[0]) #****************88
+		plotter_y = np.append(plotter_y,Position_Lat_long[1]) #***********88
 
 	#	test_x = np.append(test_x,x_sim[1])
 	#	test_y = np.append(test_y, y_sim[1])
@@ -226,13 +206,13 @@ def main():
 		#print(Position_Lat_long)
 		x0= Position_Lat_long[0]
 		y0 = Position_Lat_long[1]
-	#	plotter(plotter_y,plotter_x,'map.png',timeout) #####**********
+		plotter(plotter_y,plotter_x,'map.png',timeout) #####**********
 	#	plotter(test_y,test_x,'map.png')
 		sleep(3.0)  # if this is too small, faults will occur
 		Position_Lat_long = position()
 
-	#	plotter_x = np.append(plotter_x,Position_Lat_long[0])  #************888
-	#	plotter_y = np.append(plotter_y,Position_Lat_long[1]) #************
+		plotter_x = np.append(plotter_x,Position_Lat_long[0])  #************888
+		plotter_y = np.append(plotter_y,Position_Lat_long[1]) #************
 
 	#	test_x = np.append(test_x,x_sim[2])	
 	#	test_y = np.append(test_y, y_sim[2])
@@ -244,7 +224,8 @@ def main():
 		y1 = Position_Lat_long[1]
 
 
-	#	print("values")
+		print("values")
+		print(plotter_x,plotter_y)
 	#	print(x0,x1,y0,y1)
 		Cardinal_direction = heading(x0,x1,y0,y1)
 	#	print (Cardinal_direction)
@@ -252,7 +233,7 @@ def main():
 		needed_data = [x0, y0, Cardinal_direction]
 	#	file_operations(needed_data) #take the running average
 		print(needed_data) 
-	#	plotter(plotter_y,plotter_x,'map.png')
+		plotter(plotter_y,plotter_x,'map.png',timeout)
 	#	plotter(test_y,test_x,'map.png')
 		sleep(3.0)  #if this is too small, faults will occur
 
