@@ -132,7 +132,7 @@ def position():
 
 	
 
-def plotter(pos_x, pos_y,map_png):
+def plotter(pos_x, pos_y,map_png,timeout):
 	global BLX, BLY, TRX, TRY
 	# print("plotter")
 	# print(pos_x)
@@ -160,7 +160,7 @@ def plotter(pos_x, pos_y,map_png):
 	
 		#implot = plt.imshow(im,extent=[long_min, long_max, lat_min, lat_max])
 	plt.show(block=False)
-	plt.pause(10)
+	plt.pause(timeout)
 	plt.close()
 
 #	x = [-123.24480,-123.24506, -123.24523]
@@ -200,6 +200,7 @@ def main():
 	plotter_y = Position_Lat_long[1]
 	# print("plotter_x")
 	# print(plotter_x)
+	timeout = 5
 
 
 	x_sim = [-123.24480,-123.24506, -123.24523]
@@ -208,15 +209,15 @@ def main():
 	test_x = x_sim[0]
 	test_y = y_sim[0]
 
-	#plotter(test_y,test_x,'map.png')
+	#plotter(test_y,test_x,'map.png',timeout)  #********************
 	sleep(3.0) 
 
-	for x in range(1,3):
+	while(true):   #change t
 		print("main call")
 		Position_Lat_long = position()
 
-	#	plotter_x = np.append(plotter_x,Position_Lat_long[0]) 
-	#	plotter_y = np.append(plotter_y,Position_Lat_long[1]) 
+	#	plotter_x = np.append(plotter_x,Position_Lat_long[0]) #****************88
+	#	plotter_y = np.append(plotter_y,Position_Lat_long[1]) #***********88
 
 	#	test_x = np.append(test_x,x_sim[1])
 	#	test_y = np.append(test_y, y_sim[1])
@@ -225,13 +226,13 @@ def main():
 		#print(Position_Lat_long)
 		x0= Position_Lat_long[0]
 		y0 = Position_Lat_long[1]
-	#	plotter(plotter_y,plotter_x,'map.png')
+	#	plotter(plotter_y,plotter_x,'map.png',timeout) #####**********
 	#	plotter(test_y,test_x,'map.png')
 		sleep(3.0)  # if this is too small, faults will occur
 		Position_Lat_long = position()
 
-	#	plotter_x = np.append(plotter_x,Position_Lat_long[0]) 
-	#	plotter_y = np.append(plotter_y,Position_Lat_long[1]) 
+	#	plotter_x = np.append(plotter_x,Position_Lat_long[0])  #************888
+	#	plotter_y = np.append(plotter_y,Position_Lat_long[1]) #************
 
 	#	test_x = np.append(test_x,x_sim[2])	
 	#	test_y = np.append(test_y, y_sim[2])
