@@ -38,7 +38,7 @@
 import shutil, sys  
 #from pynmea import nmea
 import matplotlib.pyplot as plt
-import pynmea2
+#import pynmea2
 from time import sleep
 import numpy as np
 
@@ -212,7 +212,7 @@ def main():
 	#plotter(test_y,test_x,'map.png',timeout)  #********************
 	sleep(3.0) 
 
-	while(true):   #change t
+	while(True):   #change t
 		print("main call")
 		Position_Lat_long = position()
 
