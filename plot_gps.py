@@ -30,12 +30,16 @@ TRY = 49.279441            #top right latitude
 BLX = -123.263335          #bottom left longitude
 BLY = 49.248726             #bottom left latitude
 
+TRX_ = -123.24198        #top right longitude
+TRY_ = 49.26783            #top right latitude
+BLX_ = -123.24843          #bottom left longitude
+BLY_ = 49.26545             #bottom left latitude
 
 
-long_min =-123.25661  #TRX
-long_max = -123.25470
-lat_min= 49.26383  #BLY
-lat_max = 49.26257 #TRY
+#long_min = -123.24863 #TRX 
+#long_max = -123.24228
+#lat_min= 49.26749 #BLY
+#lat_max = 49.26529 #TRY
 
 
 #format of gps data in gps_data.txt 
@@ -98,8 +102,8 @@ def position():
 
 
 	# #calc position
-	pos_y = data[6]
-	pos_x = data[5]
+	pos_y = data[7]
+	pos_x = data[6]
 
 	#print (pos_x)
 	#print (pos_y)
@@ -112,20 +116,27 @@ def position():
 
 	
 
-def plotter(pos_x, pos_y,map_png):
+def plotter(pos_x, pos_y,map_png,timeout):
 	global BLX, BLY, TRX, TRY
+	global BLX_, BLY_, TRX_, TRY_
 	# print("plotter")
 	# print(pos_x)
 	# print(pos_y)
-	
-	plt.scatter(x=float(pos_x), y=float(pos_y),alpha = 0.5, s = 25, c='r')
+	x=[-123.24480,-123.24506,-123.24523]
+	y=[49.26561,49.26596,49.26618]
+	#plt.scatter(x=float(pos_x), y=float(pos_y),alpha = 0.5, s = 25, c='r')
+	plt.scatter(x,y,alpha = 0.5, s = 5, c='b')
+	plt.plot(x,y)
 	plt.xlabel('Longitude')
 	plt.ylabel('Latitude')
 	plt.title('POSITION (in Decimal Degrees)')
 	im = plt.imread(map_png)
 	implot = plt.imshow(im,extent=[BLX, TRX, BLY, TRY])
+	#implot = plt.imshow(im,extent=[BLX_, TRX_, BLY_, TRY_])
 	#implot = plt.imshow(im,extent=[long_min, long_max, lat_min, lat_max])
-	plt.show()
+	plt.show(block=False)
+	plt.pause(timeout)
+	plt.close()
 
 def file_operations(data):
 	f = open("OWEN_gps_data", "w")
@@ -137,26 +148,28 @@ def file_operations(data):
 
 
 def main():
-	for x in range(1,2):
-		print("main call")
-		Position_Lat_long = position()
-	#	print(Position_Lat_long)
-		x0= Position_Lat_long[0]
-		y0 = Position_Lat_long[1]
-		#plotter(y0,x0,'map.png')
-		sleep(3.0)
-		Position_Lat_long = position()
-		x1= Position_Lat_long[0]
-		y1 = Position_Lat_long[1]
+    while (True): 
+	#for x in range(1,2):
+        print("main call")
+        Position_Lat_long = position()
+        print(Position_Lat_long)
+        x0= Position_Lat_long[0]
+        y0 = Position_Lat_long[1]
+        #plotter(y0,x0,'map.png')
+        plotter(y0,x0,'map.png',2)
+        sleep(3.0)
+        Position_Lat_long = position()
+        x1= Position_Lat_long[0]
+        y1 = Position_Lat_long[1]
 		#print("values")
 		#print(x0,x1,y0,y1)
-		Cardinal_direction = heading(x0,x1,y0,y1)
+        Cardinal_direction = heading(x0,x1,y0,y1)
 	#	print (Cardinal_direction)
 		#print(x0,y1)
-		needed_data = [x0, y0, Cardinal_direction]
-		file_operations(needed_data) #take the running average
-		print(needed_data) 
-		sleep(3.0)  #if this is too small, faults will occur
+        needed_data = [x0, y0, Cardinal_direction]
+        file_operations(needed_data) #take the running average
+        print(needed_data)
+        sleep(3.0)  #if this is too small, faults will occur
 
 if __name__ == "__main__":
 	main()
