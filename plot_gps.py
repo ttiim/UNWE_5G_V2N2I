@@ -156,7 +156,7 @@ def main():
         x0= Position_Lat_long[0]
         y0 = Position_Lat_long[1]
         #plotter(y0,x0,'map.png')
-        plotter(y0,x0,'map.png',2)
+       # plotter(y0,x0,'map.png',2)
         sleep(3.0)
         Position_Lat_long = position()
         x1= Position_Lat_long[0]
